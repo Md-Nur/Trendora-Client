@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Query } from "./Pagination";
 import axios from "axios";
 import useProductQuery from "../contexts/ProductQueryProvider";
+import { FaSearch } from "react-icons/fa";
 
 const Controller = () => {
   const [serverQuery, setServerQuery] = useState<Query>();
@@ -22,15 +23,24 @@ const Controller = () => {
   }
 
   return (
-    <form className="flex w-full flex-wrap gap-5 my-10 mx-3">
+    <form
+      onSubmit={(e) => e.preventDefault()}
+      className="flex w-full flex-wrap gap-5 my-10 mx-3"
+    >
       <div className="flex flex-col gap-2">
         <label htmlFor="searchName">Search</label>
-        <input
-          type="text"
-          id="searchName"
-          className="input input-bordered"
-          onChange={(e) => setQuery({ ...query, searchName: e.target.value })}
-        />
+        <div className="join">
+          <input
+            type="text"
+            id="searchName"
+            className="input input-bordered join-item"
+            placeholder="Search by name"
+            onBlur={(e) => setQuery({ ...query, searchName: e.target.value })}
+          />
+          <button type="submit" className="btn btn-secondary join-item">
+            <FaSearch />
+          </button>
+        </div>
       </div>
       <div className="flex flex-col gap-2">
         <label htmlFor="category">Category</label>

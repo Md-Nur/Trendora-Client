@@ -1,6 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 export interface Query {
   pageList: number[];
@@ -12,15 +10,19 @@ const Pagination = ({ pageList }: { pageList: number[] }) => {
   const location = useLocation();
   const currentPage = parseInt(location.search.split("=")[1] || "1");
 
+  if (pageList.length < 2 || pageList[0] === 0) {
+    return null;
+  }
+
   return (
     <div className="flex w-full justify-center my-10">
       <div className="join">
-        <Link
+        <NavLink
           to={`/products?page=${currentPage > 1 ? currentPage - 1 : 1}`}
           className="btn btn-accent join-item"
         >
           Prev
-        </Link>
+        </NavLink>
         {pageList.map((page) => (
           <NavLink
             key={page}
