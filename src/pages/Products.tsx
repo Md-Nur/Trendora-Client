@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Controller from "../components/Controller";
 import useProductQuery from "../contexts/ProductQueryProvider";
 
-interface product {
+export interface product {
   _id: string;
   name: string;
   price: number;

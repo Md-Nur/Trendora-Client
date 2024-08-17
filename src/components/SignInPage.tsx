@@ -1,10 +1,12 @@
-import { Dispatch } from "react";
+import { Dispatch, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import GoogleBtn from "./GoogleBtn";
 
 export interface User {
+  displayName?: string;
   email: string;
   password: string;
+  photoURL?: string;
 }
 
 const SignInPage = ({
@@ -16,18 +18,49 @@ const SignInPage = ({
   user: User;
   setUser: Dispatch<User>;
   title: string;
-  handleSubmit: () => void;
+  handleSubmit: (e: FormEvent) => void;
 }) => {
   return (
-    <div className="hero w-full my-10">
+    <div className="hero w-full min-h-[calc(100vh-140px)]">
       <div className="hero-content flex-col lg:flex-row-reverse w-full">
-        <div className="text-center lg:text-left">
+        <div className="text-center lg:text-left flex flex-col justify-center">
           <h1 className="text-5xl font-bold">{title} Now!</h1>
           <div className="divider"></div>
           <GoogleBtn />
         </div>
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+        <div className="card bg-base-300 w-full max-w-sm shrink-0 shadow-2xl">
           <form className="card-body" onSubmit={handleSubmit}>
+            {title === "Sign Up" && (
+              <>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Name</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    className="input input-bordered"
+                    required
+                    onChange={(e) =>
+                      setUser({ ...user, displayName: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Photo Url</span>
+                  </label>
+                  <input
+                    type="url"
+                    placeholder="Photo Url"
+                    className="input input-bordered"
+                    onChange={(e) =>
+                      setUser({ ...user, photoURL: e.target.value })
+                    }
+                  />
+                </div>
+              </>
+            )}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -53,7 +86,7 @@ const SignInPage = ({
               />
               <label className="label">
                 <Link
-                  to={title === "Login" ? "/signup" : "login"}
+                  to={title === "Login" ? "/signup" : "/login"}
                   className="label-text-alt link link-hover"
                 >
                   {title === "Login"

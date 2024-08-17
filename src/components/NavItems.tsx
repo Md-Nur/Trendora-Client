@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
+import LogoutBtn from "./LogoutBtn";
+import { User } from "firebase/auth";
 
-const NavItems = () => {
+const NavItems = ({ user }: { user: User | null }) => {
   return (
     <>
       <li>
@@ -9,9 +11,20 @@ const NavItems = () => {
       <li>
         <NavLink to="/products">All Products</NavLink>
       </li>
-      <li>
-        <NavLink to="/signup">Register</NavLink>
-      </li>
+      {user ? (
+        <li>
+          <LogoutBtn />
+        </li>
+      ) : (
+        <>
+          <li>
+            <NavLink to="/signup">Register</NavLink>
+          </li>
+          <li>
+            <NavLink to="/login">Login</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
 };

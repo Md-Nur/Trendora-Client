@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import SignInPage, { User } from "../components/SignInPage";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import app from "../firebase/config";
 
 const SignUp = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [user, setUser] = useState<User>({
     email: "",
     password: "",
+    displayName: "",
+    photoURL: "",
   });
-  const handleSubmit = () => {
-    const auth = getAuth();
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const auth = getAuth(app);
     createUserWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential: any) => {
         const user = userCredential.user;
@@ -19,6 +27,15 @@ const SignUp = () => {
         toast.success("User created successfully");
         navigate("/");
         setUser({ email: "", password: "" });
+      })
+      .then(() => {
+        // const auth = getAuth(app);
+        if (auth.currentUser) {
+          updateProfile(auth.currentUser, {
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+          });
+        }
       })
       .catch((error: any) => {
         const errorCode = error.code;

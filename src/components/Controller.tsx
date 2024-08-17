@@ -52,7 +52,7 @@ const Controller = () => {
           <input
             type="text"
             id="searchName"
-            className="input input-bordered join-item"
+            className="input input-bordered join-item w-36"
             placeholder="Search by name"
             onBlur={(e) => setQuery({ ...query, searchName: e.target.value })}
           />
@@ -99,7 +99,7 @@ const Controller = () => {
           <input
             type="number"
             id="min"
-            className="input input-bordered w-auto"
+            className="input input-bordered w-24"
             min={serverQuery?.priceRange.minPrice}
             max={query.max}
             step="any"
@@ -112,7 +112,7 @@ const Controller = () => {
           <input
             type="number"
             id="max"
-            className="input input-bordered w-auto"
+            className="input input-bordered w-24"
             min={query.min}
             defaultValue={query.max.toString()}
             max={serverQuery?.priceRange.maxPrice}
