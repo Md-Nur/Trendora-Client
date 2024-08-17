@@ -5,9 +5,10 @@ const ProductQueryContext = createContext({
     searchName: "",
     category: "",
     brandName: "",
-    min: NaN,
-    max: NaN,
+    min: "",
+    max: "",
     priceSort: "",
+    timeSort: "",
   },
   setQuery: (query: any) => {},
 });
@@ -17,11 +18,11 @@ const ProductQueryProvider = ({ children }: { children: React.ReactNode }) => {
     searchName: "",
     category: "",
     brandName: "",
-    min: 19.99,
-    max: 1199.99,
-    priceSort: 1,
+    min: "",
+    max: "",
+    priceSort: "",
+    timeSort: "",
   });
-
   return (
     <ProductQueryContext.Provider value={{ query, setQuery }}>
       {children}

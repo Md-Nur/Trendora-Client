@@ -21,13 +21,14 @@ const Controller = () => {
     axios
       .get("/products/query")
       .then((response) => {
-        console.log(query);
         setServerQuery(response.data);
-        setQuery({
-          ...query,
-          min: response.data?.priceRange.minPrice,
-          max: response.data?.priceRange.maxPrice,
-        });
+        if (query.min === "" || query.max === "") {
+          setQuery({
+            ...query,
+            min: response.data?.priceRange.minPrice.toString(),
+            max: response.data?.priceRange.maxPrice.toString(),
+          });
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -45,7 +46,7 @@ const Controller = () => {
     >
       <div className="flex flex-col gap-2">
         <label htmlFor="searchName">
-          Search {query?.searchName && `(${query.searchName})`}
+          Search {query?.searchName && `(${query?.searchName})`}
         </label>
         <div className="join">
           <input
@@ -102,10 +103,8 @@ const Controller = () => {
             min={serverQuery?.priceRange.minPrice}
             max={query.max}
             step="any"
-            defaultValue={serverQuery?.priceRange.minPrice}
-            onBlur={(e) =>
-              setQuery({ ...query, min: parseInt(e.target.value) })
-            }
+            defaultValue={query.min.toString()}
+            onBlur={(e) => setQuery({ ...query, min: e.target.value })}
           />
         </div>
         <div className="flex flex-col gap-2 join-item">
@@ -115,7 +114,7 @@ const Controller = () => {
             id="max"
             className="input input-bordered"
             min={query.min}
-            defaultValue={serverQuery?.priceRange.maxPrice}
+            defaultValue={query.max.toString()}
             max={serverQuery?.priceRange.maxPrice}
             onBlur={(e) => setQuery({ ...query, max: e.target.value })}
             step="any"
@@ -126,6 +125,32 @@ const Controller = () => {
             <FaSearch />
           </button>
         </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="priceSort">Price Sort</label>
+        <select
+          id="priceSort"
+          className="select select-bordered"
+          defaultValue={query.priceSort === "1" ? "Low to High" : "High to Low"}
+          onChange={(e) => setQuery({ ...query, priceSort: e.target.value })}
+        >
+          <option value="1">Low to High</option>
+          <option value="-1">High to Low</option>
+        </select>
+      </div>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="timeSort">Time Sort</label>
+        <select
+          id="timeSort"
+          className="select select-bordered"
+          defaultValue={
+            query.timeSort === "-1" ? "Newest first" : "Oldest first"
+          }
+          onChange={(e) => setQuery({ ...query, timeSort: e.target.value })}
+        >
+          <option value="-1">Newest first</option>
+          {/* <option value="1">Oldest first</option> */}
+        </select>
       </div>
     </form>
   );
