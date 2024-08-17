@@ -14,8 +14,7 @@ const GoogleBtn = () => {
       onClick={() => {
         signInWithPopup(auth, provider)
           .then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-
+          
             const user: any = result.user;
             if (user) {
               toast.success(`Welcome ${user.displayName}`);

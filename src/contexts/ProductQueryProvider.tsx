@@ -10,7 +10,9 @@ const ProductQueryContext = createContext({
     priceSort: "",
     timeSort: "",
   },
-  setQuery: (query: any) => {},
+  setQuery: (query: any) => {
+    return query;
+  },
 });
 
 const ProductQueryProvider = ({ children }: { children: React.ReactNode }) => {
