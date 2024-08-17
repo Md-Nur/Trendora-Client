@@ -29,7 +29,7 @@ const Products = () => {
     setIsLoading(true);
     axios
       .get(
-        `/products?page=${currentPage}&search=${query.searchName}&category=${query.category}&brandName=${query.brandName}`
+        `/products?page=${currentPage}&search=${query.searchName}&category=${query.category}&brandName=${query.brandName}&priceRange=${query.min}-${query.max}`
       )
       .then((response) => {
         setProducts(response.data.products);

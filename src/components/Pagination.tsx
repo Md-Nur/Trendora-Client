@@ -1,10 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
 
-export interface Query {
-  pageList: number[];
-  uniqueBrands: string[];
-  uniqueCategories: string[];
-}
+
 
 const Pagination = ({ pageList }: { pageList: number[] }) => {
   const location = useLocation();

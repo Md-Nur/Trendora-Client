@@ -23,14 +23,14 @@ const CardContainer = ({
             <Card key={card._id} img={card.imageUrl}>
               <h2 className="text-xl font-bold">{card.name}</h2>
               <p>{card.description}</p>
-              <p>{(card.price * 117.52).toFixed()}/=</p>
+              <p>{card.price}$</p>
               <div className="flex w-full gap-2">
                 <span className="btn btn-sm btn-outline">{card.brandName}</span>
                 <span className="btn btn-sm btn-outline">{card.category}</span>
               </div>
             </Card>
           ) : (
-            <PulseCard />
+            <PulseCard key={card._id} />
           )
         )}
       </div>

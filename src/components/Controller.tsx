@@ -1,22 +1,38 @@
 import { useEffect, useState } from "react";
-import { Query } from "./Pagination";
 import axios from "axios";
 import useProductQuery from "../contexts/ProductQueryProvider";
 import { FaSearch } from "react-icons/fa";
 
+interface Query {
+  pageList: number[];
+  uniqueBrands: string[];
+  uniqueCategories: string[];
+  priceRange: {
+    minPrice: number;
+    maxPrice: number;
+  };
+}
+
 const Controller = () => {
   const [serverQuery, setServerQuery] = useState<Query>();
+  const { query, setQuery } = useProductQuery();
+
   useEffect(() => {
     axios
       .get("/products/query")
       .then((response) => {
+        console.log(query);
         setServerQuery(response.data);
+        setQuery({
+          ...query,
+          min: response.data?.priceRange.minPrice,
+          max: response.data?.priceRange.maxPrice,
+        });
       })
       .catch((error) => {
         console.error(error);
       });
   }, []);
-  const { query, setQuery } = useProductQuery();
 
   if (!serverQuery) {
     return null;
@@ -28,7 +44,9 @@ const Controller = () => {
       className="flex w-full flex-wrap gap-5 my-10 mx-3"
     >
       <div className="flex flex-col gap-2">
-        <label htmlFor="searchName">Search</label>
+        <label htmlFor="searchName">
+          Search {query?.searchName && `(${query.searchName})`}
+        </label>
         <div className="join">
           <input
             type="text"
@@ -73,6 +91,41 @@ const Controller = () => {
             </option>
           ))}
         </select>
+      </div>
+      <div className="join">
+        <div className="flex flex-col gap-2 join-item">
+          <label htmlFor="min">Min Price</label>
+          <input
+            type="number"
+            id="min"
+            className="input input-bordered"
+            min={serverQuery?.priceRange.minPrice}
+            max={query.max}
+            step="any"
+            defaultValue={serverQuery?.priceRange.minPrice}
+            onBlur={(e) =>
+              setQuery({ ...query, min: parseInt(e.target.value) })
+            }
+          />
+        </div>
+        <div className="flex flex-col gap-2 join-item">
+          <label htmlFor="max">Max Price</label>
+          <input
+            type="number"
+            id="max"
+            className="input input-bordered"
+            min={query.min}
+            defaultValue={serverQuery?.priceRange.maxPrice}
+            max={serverQuery?.priceRange.maxPrice}
+            onBlur={(e) => setQuery({ ...query, max: e.target.value })}
+            step="any"
+          />
+        </div>
+        <div className="flex flex-col gap-2 join-item justify-end">
+          <button type="submit" className="btn join-item btn-primary">
+            <FaSearch />
+          </button>
+        </div>
       </div>
     </form>
   );

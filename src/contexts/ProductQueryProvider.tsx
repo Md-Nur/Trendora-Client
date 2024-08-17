@@ -5,15 +5,21 @@ const ProductQueryContext = createContext({
     searchName: "",
     category: "",
     brandName: "",
+    min: NaN,
+    max: NaN,
+    priceSort: "",
   },
   setQuery: (query: any) => {},
 });
 
 const ProductQueryProvider = ({ children }: { children: React.ReactNode }) => {
-  const [query, setQuery] = useState({
+  const [query, setQuery] = useState<any>({
     searchName: "",
     category: "",
     brandName: "",
+    min: 19.99,
+    max: 1199.99,
+    priceSort: 1,
   });
 
   return (
