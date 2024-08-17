@@ -19,11 +19,13 @@ const SignUp = () => {
   });
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    toast.loading("Creating user...");
     const auth = getAuth(app);
     createUserWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential: any) => {
         const user = userCredential.user;
         console.log(user);
+        toast.dismiss();
         toast.success("User created successfully");
         navigate("/");
         setUser({ email: "", password: "" });

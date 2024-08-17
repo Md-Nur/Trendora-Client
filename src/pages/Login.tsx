@@ -16,8 +16,10 @@ const Login = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    toast.loading("Logging in...");
     signInWithEmailAndPassword(auth, user.email, user.password)
       .then(() => {
+        toast.dismiss();
         toast.success("Login successful");
         navigate("/");
       })
