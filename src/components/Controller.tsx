@@ -93,13 +93,13 @@ const Controller = () => {
           ))}
         </select>
       </div>
-      <div className="join">
+      <div className="join flex-wrap">
         <div className="flex flex-col gap-2 join-item">
           <label htmlFor="min">Min Price</label>
           <input
             type="number"
             id="min"
-            className="input input-bordered"
+            className="input input-bordered w-auto"
             min={serverQuery?.priceRange.minPrice}
             max={query.max}
             step="any"
@@ -112,7 +112,7 @@ const Controller = () => {
           <input
             type="number"
             id="max"
-            className="input input-bordered"
+            className="input input-bordered w-auto"
             min={query.min}
             defaultValue={query.max.toString()}
             max={serverQuery?.priceRange.maxPrice}

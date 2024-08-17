@@ -12,7 +12,7 @@ const Pagination = ({ pageList }: { pageList: number[] }) => {
 
   return (
     <div className="flex w-full justify-center my-10">
-      <div className="join">
+      <div className="join flex-wrap w-full px-2 justify-center">
         <NavLink
           to={`/products?page=${currentPage > 1 ? currentPage - 1 : 1}`}
           className="btn btn-accent join-item"
